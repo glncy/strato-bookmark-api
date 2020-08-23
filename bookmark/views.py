@@ -58,6 +58,7 @@ class BookmarkApiView(APIView):
             Bookmark.objects.create(
                 name = request.data['name'],
                 url = request.data['url'],
+                desc = request.data['desc'],
                 tags = request.data['tags']
             )
             if len(request.data['tags']) > 0:
@@ -78,8 +79,17 @@ class BookmarkApiView(APIView):
         if id != "none":
             result = Bookmark.objects.filter(id=id).update(
                 name = request.data['name'],
-                url = request.data['url']
+                url = request.data['url'],
+                desc = request.data['desc'],
+                tags = request.data['tags']
             )
+            if len(request.data['tags']) > 0:
+                for tag in request.data['tags']:
+                    getTag = Tags.objects.all().filter(name__contains=tag).values()
+                    if len(getTag) == 0:
+                        Tags.objects.create(
+                            name = tag.lower()
+                        )
             if result > 0:
                 return Response({ "status": "success", "message": "Updated the Information."})
             else:

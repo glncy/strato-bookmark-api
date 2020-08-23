@@ -20,7 +20,7 @@ from bookmark import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    url('tags', views.TagApiView.as_view()),
+    url('tag', views.TagApiView.as_view()),
     url(r'^bookmark/(?P<id>.+)', views.BookmarkApiView.as_view()),
     url('bookmark', views.BookmarkApiView.as_view())
 ]
